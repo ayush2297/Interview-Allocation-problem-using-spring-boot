@@ -43,6 +43,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(error, HttpStatus.NO_CONTENT);
     }
 
+    @ExceptionHandler(InterviewRoomException.class)
+    public final ResponseEntity<Object> handleInterviewRoomException(InterviewRoomException ex, WebRequest request) {
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        ErrorResponse error = new ErrorResponse("Duplicate Records Found. Please enter unique data", details);
+        return new ResponseEntity(error, ex.getStatusCode());
+    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {

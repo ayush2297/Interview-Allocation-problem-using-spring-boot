@@ -7,11 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Entity(name = "attendee")
-public class Attendee {
+@Entity(name = "interview_rooms")
+public class InterviewRoom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,19 +23,14 @@ public class Attendee {
     @NotNull
     private String name;
 
-    @Getter
-    @Setter
-    @NotNull
-    private int noOfInterviews;
-
-    public Attendee() {
+    public InterviewRoom() {
     }
 
     @Override
     public String toString() {
-        return "Attendee{" +
-                "id='" + id + '\'' +
-                ", noOfInterviews=" + noOfInterviews +
+        return "InterviewRoom{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 '}';
     }
 }
