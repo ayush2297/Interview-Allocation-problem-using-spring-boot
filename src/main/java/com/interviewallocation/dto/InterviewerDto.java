@@ -23,4 +23,12 @@ public class InterviewerDto {
     @Pattern(regexp = "^09|[1][0-6]|[0]{2}$",message = "incorrect break start time")
     private String breakStartTime;
 
+    @Override
+    public String toString() {
+        return "InterviewerDto{" +
+                "name='" + name + '\'' +
+                ", breakEndTime='" + breakEndTime + '\'' +
+                ", breakStartTime='" + breakStartTime + '\'' +
+                '}';
+    }
 }

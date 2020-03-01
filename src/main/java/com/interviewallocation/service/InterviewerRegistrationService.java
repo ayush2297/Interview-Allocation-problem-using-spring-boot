@@ -2,6 +2,7 @@ package com.interviewallocation.service;
 
 import com.interviewallocation.dto.InterviewerDto;
 import com.interviewallocation.exception.InterviewRoomException;
+import com.interviewallocation.exception.InterviewerException;
 import com.interviewallocation.model.Interviewer;
 import com.interviewallocation.repository.InterviewerRepository;
 import org.modelmapper.ModelMapper;
@@ -24,6 +25,7 @@ public class InterviewerRegistrationService {
     private ModelMapper mapper;
 
     public List<Long> addAllInterviewers(List<InterviewerDto> interviewers) {
+        validateBreakTime(interviewers);
         List<Long> interviewerIds = new ArrayList<>();
         for (InterviewerDto interviewerDto : interviewers) {
             Interviewer interviewer = mapper.map(interviewerDto, Interviewer.class);
@@ -38,12 +40,11 @@ public class InterviewerRegistrationService {
         return interviewerIds;
     }
 
-    private void setBreakTime(Interviewer interviewer, String breakStartTime, String breakEndTime) {
-        interviewer.setBreakStart(breakStartTime);
-        interviewer.setBreakEnd(breakEndTime);
-        long availableHours = 8 -
-                (LocalTime.parse(breakStartTime+":00:00").until(LocalTime.parse(breakEndTime+":00:00"), ChronoUnit.HOURS));
-        interviewer.setNoOfHoursAvailable(availableHours);
+    private void validateBreakTime(List<InterviewerDto> interviewers) {
+        for (InterviewerDto interviewerDto : interviewers) {
+            if (Integer.parseInt(interviewerDto.getBreakStartTime()) < Integer.parseInt(interviewerDto.getBreakEndTime()))
+                throw new InterviewerException("break end time cannot be before break end time at : "+interviewerDto);
+        }
     }
 
     public List<Interviewer> getAllInterviewers() {
@@ -51,5 +52,13 @@ public class InterviewerRegistrationService {
         if (interviewerList.isEmpty())
             throw new InterviewRoomException("no records found!!", HttpStatus.NO_CONTENT);
         return interviewerList;
+    }
+
+    private void setBreakTime(Interviewer interviewer, String breakStartTime, String breakEndTime) {
+        interviewer.setBreakStart(breakStartTime);
+        interviewer.setBreakEnd(breakEndTime);
+        long availableHours = 8 -
+                (LocalTime.parse(breakStartTime + ":00:00").until(LocalTime.parse(breakEndTime + ":00:00"), ChronoUnit.HOURS));
+        interviewer.setNoOfHoursAvailable(availableHours);
     }
 }

@@ -28,7 +28,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(value = ConstraintViolationException.class)
-    public final ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex, WebRequest request) {
+    public final ResponseEntity<Object> handleConstraintViolationException(RuntimeException ex, WebRequest request) {
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
         ErrorResponse error = new ErrorResponse("Incorrect input", details);
@@ -48,6 +48,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
         ErrorResponse error = new ErrorResponse("Duplicate Records Found. Please enter unique data", details);
+        return new ResponseEntity(error, ex.getStatusCode());
+    }
+
+    @ExceptionHandler(value = InterviewerException.class)
+    public final ResponseEntity<Object> handleInterviewerException(InterviewerException ex ,WebRequest request) {
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), details);
         return new ResponseEntity(error, ex.getStatusCode());
     }
 
