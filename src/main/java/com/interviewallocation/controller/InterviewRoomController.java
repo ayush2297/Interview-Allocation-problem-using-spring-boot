@@ -31,4 +31,11 @@ public class InterviewRoomController {
         return new ResponseEntity<>(roomIds, HttpStatus.OK);
     }
 
+
+    @GetMapping("/")
+    public ResponseEntity<List<InterviewRoom>> getRooms() {
+        List<InterviewRoom> interviewRooms = registrationService.getAllRooms();
+        return new ResponseEntity<>(interviewRooms,HttpStatus.OK);
+    }
+
 }

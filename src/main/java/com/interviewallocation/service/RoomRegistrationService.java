@@ -2,6 +2,7 @@ package com.interviewallocation.service;
 
 import com.interviewallocation.dto.AttendeeDto;
 import com.interviewallocation.dto.RoomDto;
+import com.interviewallocation.exception.AttendeesNotFoundException;
 import com.interviewallocation.exception.InterviewRoomException;
 import com.interviewallocation.model.Attendee;
 import com.interviewallocation.model.InterviewRoom;
@@ -31,5 +32,12 @@ public class RoomRegistrationService {
             roomIds.add(newRoom.getId());
         }
         return roomIds;
+    }
+
+    public List<InterviewRoom> getAllRooms() {
+        List<InterviewRoom> roomsList = roomRepository.findAll();
+        if (roomsList.isEmpty())
+            throw new InterviewRoomException("no records found!!",HttpStatus.NO_CONTENT);
+        return roomsList;
     }
 }
