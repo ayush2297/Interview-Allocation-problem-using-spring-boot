@@ -12,7 +12,6 @@ public class InterviewRoom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "interviewRoom_id")
     @Getter
     @Setter
     private Long id;
