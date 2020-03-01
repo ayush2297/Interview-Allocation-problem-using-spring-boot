@@ -27,6 +27,9 @@ public class RoomRegistrationService {
     public List<Long> addInterviewRooms(List<RoomDto> roomDtos) {
         List<Long> roomIds = new ArrayList<>();
         for (RoomDto roomDto : roomDtos) {
+            InterviewRoom interviewRoomByName = roomRepository.findInterviewRoomByName(roomDto.getName());
+            if (interviewRoomByName != null)
+                throw new InterviewRoomException("room already exists",HttpStatus.CONFLICT);
             InterviewRoom interviewRoom = mapper.map(roomDto, InterviewRoom.class);
             InterviewRoom newRoom = roomRepository.save(interviewRoom);
             roomIds.add(newRoom.getId());

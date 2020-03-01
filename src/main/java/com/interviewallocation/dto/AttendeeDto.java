@@ -13,7 +13,7 @@ public class AttendeeDto {
     @ApiModelProperty(required = true)
     @Getter
     @Setter
-    @Pattern(regexp = "^[a-zA-Z]{3}$", message = "name should contain atleast 3 letters ")
+    @Pattern(regexp = "^[a-zA-Z]{3,}$", message = "name should contain atleast 3 letters ")
     private String name;
 
     @Getter @Setter

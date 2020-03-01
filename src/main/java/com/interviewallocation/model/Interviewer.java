@@ -3,12 +3,14 @@ package com.interviewallocation.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-@Entity(name = "attendees")
-public class Attendee {
+@Entity(name = "interviewers")
+public class Interviewer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,19 +23,14 @@ public class Attendee {
     @NotNull
     private String name;
 
-    @Getter
-    @Setter
-    @NotNull
-    private int noOfInterviews;
-
-    public Attendee() {
+    public Interviewer() {
     }
 
     @Override
     public String toString() {
-        return "Attendee{" +
-                "id='" + id + '\'' +
-                ", noOfInterviews=" + noOfInterviews +
+        return "Interviewer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 '}';
     }
 }
