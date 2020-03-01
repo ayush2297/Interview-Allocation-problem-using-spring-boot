@@ -3,6 +3,8 @@ package com.interviewallocation.controller;
 import com.interviewallocation.dto.AttendeeDto;
 import com.interviewallocation.dto.InterviewerDto;
 import com.interviewallocation.model.Attendee;
+import com.interviewallocation.model.InterviewRoom;
+import com.interviewallocation.model.Interviewer;
 import com.interviewallocation.service.InterviewerRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,5 +31,10 @@ public class InterviewerController {
         return new ResponseEntity<>(ids, HttpStatus.OK);
     }
 
+    @GetMapping("/")
+    public ResponseEntity<List<Interviewer>> getInterviewers() {
+        List<Interviewer> interviews = registrationService.getAllInterviewers();
+        return new ResponseEntity<>(interviews,HttpStatus.OK);
+    }
 
 }
