@@ -6,29 +6,23 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 
 import javax.validation.constraints.Pattern;
+import java.time.LocalTime;
 
 @ApiModel
 public class InterviewerDto {
 
     @ApiModelProperty(required = true)
     @Getter
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "incorrect name (should contain only alphabets - min length 3")
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "incorrect name (should contain only alphabets )")
     private String name;
 
     @Getter
-    @Pattern(regexp = "^[1][0-7]|[0]{0}$",message = "incorrect break end time")
-    private String breakEndTime;
+    private LocalTime breakStartTime;
 
     @Getter
-    @Pattern(regexp = "^09|[1][0-6]|[0]{2}$",message = "incorrect break start time")
-    private String breakStartTime;
+    private LocalTime breakEndTime;
 
-    @Override
-    public String toString() {
-        return "InterviewerDto{" +
-                "name='" + name + '\'' +
-                ", breakEndTime='" + breakEndTime + '\'' +
-                ", breakStartTime='" + breakStartTime + '\'' +
-                '}';
+    public InterviewerDto() {
     }
+
 }

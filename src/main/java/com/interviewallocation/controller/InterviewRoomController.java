@@ -1,10 +1,7 @@
 package com.interviewallocation.controller;
 
-import com.interviewallocation.dto.AttendeeDto;
 import com.interviewallocation.dto.RoomDto;
-import com.interviewallocation.model.Attendee;
 import com.interviewallocation.model.InterviewRoom;
-import com.interviewallocation.service.AttendeeRegistrationService;
 import com.interviewallocation.service.RoomRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

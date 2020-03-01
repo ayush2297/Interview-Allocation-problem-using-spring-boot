@@ -4,21 +4,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity(name = "attendees")
 public class Attendee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "attendee_id")
     @Getter
     @Setter
     private Long id;
 
     @Getter
     @Setter
-    @NotNull
+    @Column(unique = true,nullable = false)
     private String name;
 
     @Getter
@@ -27,6 +28,16 @@ public class Attendee {
     private int noOfInterviews;
 
     public Attendee() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Attendee attendee = (Attendee) o;
+        return noOfInterviews == attendee.noOfInterviews &&
+                Objects.equals(id, attendee.id) &&
+                Objects.equals(name, attendee.name);
     }
 
     @Override

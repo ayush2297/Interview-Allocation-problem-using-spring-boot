@@ -6,6 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InterviewRoomRepository extends JpaRepository<InterviewRoom, Long> {
-
-    public InterviewRoom findInterviewRoomByName(String name);
 }

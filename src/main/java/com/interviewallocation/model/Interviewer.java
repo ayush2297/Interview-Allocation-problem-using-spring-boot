@@ -2,36 +2,48 @@ package com.interviewallocation.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
+
+import javax.persistence.*;
+import java.time.LocalTime;
+import java.util.Objects;
 
 @Entity(name = "interviewers")
 public class Interviewer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "interviewer_id")
     @Getter
     @Setter
     private Long id;
 
     @Getter
     @Setter
-    @NotNull
+    @Column(unique = true,nullable = false)
     private String name;
 
     @Getter @Setter
-    private String breakStart;
+    private LocalTime breakStart;
 
     @Getter @Setter
-    private String breakEnd;
+    private LocalTime breakEnd;
 
     @Getter @Setter
     private long noOfHoursAvailable;
 
     public Interviewer() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Interviewer that = (Interviewer) o;
+        return noOfHoursAvailable == that.noOfHoursAvailable &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(breakStart, that.breakStart) &&
+                Objects.equals(breakEnd, that.breakEnd);
     }
 
     @Override
