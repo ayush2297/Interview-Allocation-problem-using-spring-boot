@@ -2,7 +2,6 @@ package com.interviewallocation.model;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +22,15 @@ public class Interviewer {
     @NotNull
     private String name;
 
+    @Getter @Setter
+    private String breakStart;
+
+    @Getter @Setter
+    private String breakEnd;
+
+    @Getter @Setter
+    private long noOfHoursAvailable;
+
     public Interviewer() {
     }
 
@@ -31,6 +39,8 @@ public class Interviewer {
         return "Interviewer{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", breakStart='" + breakStart + '\'' +
+                ", breakEnd='" + breakEnd + '\'' +
                 '}';
     }
 }
