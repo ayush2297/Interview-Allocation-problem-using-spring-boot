@@ -1,9 +1,8 @@
 package com.interviewallocation.service;
 
 import com.interviewallocation.model.InterviewTime;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
@@ -11,40 +10,50 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@PropertySource("classpath:scheduler.properties")
 public class TimeSlotManager {
 
-    private LocalTime slotStartsAt = LocalTime.parse("09:00:00");
-    private LocalTime dayEndsAt = LocalTime.parse("17:00:00");
-    private LocalTime breakStartTime = LocalTime.parse("14:00:00");
-    private LocalTime breakEndTime = LocalTime.parse("15:00:00");
-    private int interviewDuration = 1;
+    @Value("${schedule.day.start.time}")
+    private String slotStartsAt;
+    @Value("${schedule.day.end.time}")
+    private String dayEndsAt;
+    @Value("${schedule.break.start.time}")
+    private String breakStartTime;
+    @Value("${schedule.break.end.time}")
+    private String breakEndTime;
+    @Value("${schedule.interview.duration}")
+    private String interviewDuration;
 
     public TimeSlotManager() {
     }
 
     public List<InterviewTime> getSlots() {
         List<InterviewTime> slots = new ArrayList<>();
-        InterviewTime interval = new InterviewTime(slotStartsAt, getEndTimeBasedOnStartTime(slotStartsAt));
-        while (!interval.getStartTime().isAfter(dayEndsAt.minusMinutes(1))) {
+        InterviewTime interval = new InterviewTime(getLocalTime(slotStartsAt), getEndTimeBasedOnStartTime(getLocalTime(slotStartsAt)));
+        while (!interval.getStartTime().isAfter(getLocalTime(dayEndsAt).minusMinutes(1))) {
             slots.add(interval);
             interval = updateInterviewTime(interval);
         }
         return slots;
     }
 
+    public LocalTime getLocalTime(String time) {
+        return LocalTime.parse(time);
+    }
+
     private LocalTime getEndTimeBasedOnStartTime(LocalTime slotStartsAt) {
-        return slotStartsAt.plusHours(interviewDuration);
+        return slotStartsAt.plusHours(Integer.parseInt(interviewDuration));
     }
 
     private InterviewTime updateInterviewTime(InterviewTime interviewSlot) {
         LocalTime newStartTime = interviewSlot.getEndTime();
         LocalTime newEndTime = getEndTimeBasedOnStartTime(newStartTime);
-        if (new InterviewTime(newStartTime,newEndTime).overlaps(new InterviewTime(breakStartTime,breakEndTime))) {
-            newStartTime = breakEndTime;
+        if (new InterviewTime(newStartTime,newEndTime).overlaps(new InterviewTime(LocalTime.parse(breakStartTime),LocalTime.parse(breakEndTime)))) {
+            newStartTime = getLocalTime(breakEndTime);
             newEndTime = getEndTimeBasedOnStartTime(newStartTime);
         }
-        if (newStartTime.isAfter(dayEndsAt.minusMinutes(1)) || newEndTime.isAfter(dayEndsAt))
-            return new InterviewTime(dayEndsAt, dayEndsAt);
+        if (newStartTime.isAfter(getLocalTime(dayEndsAt).minusMinutes(1)) || newEndTime.isAfter(getLocalTime(dayEndsAt)))
+            return new InterviewTime(getLocalTime(dayEndsAt), getLocalTime(dayEndsAt));
         return new InterviewTime(newStartTime, newEndTime);
     }
 }

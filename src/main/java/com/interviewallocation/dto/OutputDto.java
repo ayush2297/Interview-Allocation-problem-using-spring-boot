@@ -18,4 +18,12 @@ public class OutputDto {
         this.interviews = interviews;
         this.pendingAttendees = pendingAttendees;
     }
+
+    @Override
+    public String toString() {
+        return "OutputDto{" +
+                "interviews=" + interviews +
+                ", \n\npendingAttendees=" + pendingAttendees +
+                '}';
+    }
 }

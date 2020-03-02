@@ -46,4 +46,16 @@ public class Interview {
         this.startTime = startTime;
         this.endTime = endTime;
     }
+
+    @Override
+    public String toString() {
+        return "\nInterview{" +
+                "\n\tid=" + id +
+                ",\n\tattendee=" + attendee.getName() +
+                ",\n\tinterviewer=" + interviewer.getName() +
+                ",\n\tinterviewRoom=" + interviewRoom.getName() +
+                ",\n\tstartTime=" + startTime.getHour() +
+                ",\n\tendTime=" + endTime.getHour() +
+                "\n}";
+    }
 }

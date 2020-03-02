@@ -4,6 +4,7 @@ import com.interviewallocation.dto.OutputDto;
 import com.interviewallocation.exception.InterviewSchedulerException;
 import com.interviewallocation.model.*;
 import com.interviewallocation.repository.AttendeeRepository;
+import com.interviewallocation.repository.InterviewRepository;
 import com.interviewallocation.repository.InterviewRoomRepository;
 import com.interviewallocation.repository.InterviewerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class InterviewSchedulerService {
     @Autowired
     private TimeSlotManager slotManager;
 
+    @Autowired
+    private InterviewRepository interviewRepository;
+
     public OutputDto getAllInterviews() {
         List<Attendee> attendees = getData(attendeeRepository);
         List<Interviewer> interviewers = getData(interviewerRepository);
@@ -49,10 +53,10 @@ public class InterviewSchedulerService {
         int roomNo = 0;
         List<Interview> interviews = new ArrayList<>();
         List<InterviewTime> availableSlots = slotManager.getSlots();
-        List<Interviewer> nextIteration = new ArrayList<>();
+        List<Interviewer> pendingInterviewers = new ArrayList<>();
         for (InterviewTime slot : availableSlots) {
             List<Attendee> updatedAttendeeList = getPendingAttendees(attendees);
-            List<Interviewer> availableInterviewers = getAllAvailableInterviewers(interviewers, slot, nextIteration);
+            List<Interviewer> availableInterviewers = getAllAvailableInterviewers(interviewers, slot, pendingInterviewers);
             int isRoomCountMoreThanInterviewers = rooms.size() - availableInterviewers.size();
             int interviewerNo = 0;
             while (true) {
@@ -65,11 +69,12 @@ public class InterviewSchedulerService {
                 roomNo = resetCounterIfAllUsed(roomNo, rooms.size());
                 interviews.add(new Interview(selectedAttendee, selectedInterviewer, selectedRoom, slot.getStartTime(), slot.getEndTime()));
                 if (shouldUpdateInterviewSlot(interviewerNo, roomNo, isRoomCountMoreThanInterviewers)) {
-                    nextIteration.addAll(availableInterviewers);
+                    pendingInterviewers.addAll(availableInterviewers);
                     break;
                 }
             }
         }
+        interviews.stream().map(interview -> interviewRepository.save(interview));
         return new OutputDto(interviews, getPendingAttendees(attendees));
     }
 
@@ -88,11 +93,14 @@ public class InterviewSchedulerService {
             if (!availableInterviewers.contains(interviewer))
                 availableInterviewers.add(interviewer);
         }
-        for (int i = 0; i < availableInterviewers.size(); i++) {
+        int i = 0;
+        while (i < availableInterviewers.size()) {
             Interviewer interviewer = availableInterviewers.get(i);
             if ((new InterviewTime(interviewer.getBreakStart(), interviewer.getBreakEnd()).overlaps(slot))) {
                 availableInterviewers.remove(interviewer);
                 nextIteration.add(interviewer);
+            } else {
+                i++;
             }
         }
         return availableInterviewers;

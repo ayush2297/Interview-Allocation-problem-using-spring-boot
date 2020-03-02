@@ -23,8 +23,8 @@ public class SchedulerController {
     private InterviewSchedulerService schedulerService;
 
     @GetMapping("/")
-    public ResponseEntity<OutputDto> getInterviews() {
+    public ResponseEntity<String> getInterviews() {
         OutputDto interviews = schedulerService.getAllInterviews();
-        return new ResponseEntity<>(interviews, HttpStatus.OK);
+        return new ResponseEntity<>(interviews.toString(), HttpStatus.OK);
     }
 }

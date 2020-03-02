@@ -42,7 +42,8 @@ public class Attendee {
     @Override
     public String toString() {
         return "Attendee{" +
-                "id='" + id + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", noOfInterviews=" + noOfInterviews +
                 '}';
     }

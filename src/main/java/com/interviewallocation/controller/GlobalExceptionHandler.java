@@ -1,5 +1,9 @@
-package com.interviewallocation.exception;
+package com.interviewallocation.controller;
 
+import com.interviewallocation.exception.AttendeesNotFoundException;
+import com.interviewallocation.exception.ErrorResponse;
+import com.interviewallocation.exception.InterviewRoomException;
+import com.interviewallocation.exception.InterviewerException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
