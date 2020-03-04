@@ -35,6 +35,9 @@ public class InterviewSchedulerService {
     @Autowired
     private InterviewRepository interviewRepository;
 
+    public InterviewSchedulerService() {
+    }
+
     public OutputDto getAllInterviews() {
         List<Attendee> attendees = getData(attendeeRepository);
         List<Interviewer> interviewers = getData(interviewerRepository);

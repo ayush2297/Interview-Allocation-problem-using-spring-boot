@@ -11,20 +11,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalTime;
-
 @CrossOrigin("*")
 @Validated
 @RestController
 @RequestMapping("/scheduler")
 public class SchedulerController {
 
-    @Autowired
     private InterviewSchedulerService schedulerService;
 
+    public SchedulerController() {
+    }
+
+    public SchedulerController(InterviewSchedulerService service) {
+        schedulerService = service;
+    }
+
     @GetMapping("/")
-    public ResponseEntity<String> getInterviews() {
+    public ResponseEntity<OutputDto> getInterviews() {
         OutputDto interviews = schedulerService.getAllInterviews();
-        return new ResponseEntity<>(interviews.toString(), HttpStatus.OK);
+        return new ResponseEntity<>(interviews, HttpStatus.OK);
     }
 }

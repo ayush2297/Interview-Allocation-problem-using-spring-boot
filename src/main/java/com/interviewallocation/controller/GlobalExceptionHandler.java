@@ -1,9 +1,6 @@
 package com.interviewallocation.controller;
 
-import com.interviewallocation.exception.AttendeesNotFoundException;
-import com.interviewallocation.exception.ErrorResponse;
-import com.interviewallocation.exception.InterviewRoomException;
-import com.interviewallocation.exception.InterviewerException;
+import com.interviewallocation.exception.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +32,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public final ResponseEntity<Object> handleConstraintViolationException(RuntimeException ex, WebRequest request) {
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
-        ErrorResponse error = new ErrorResponse("Incorrect input", details);
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), details);
         return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
     }
 
@@ -43,7 +40,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public final ResponseEntity<Object> handleAttendeesNotFoundException(AttendeesNotFoundException ex, WebRequest request) {
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
-        ErrorResponse error = new ErrorResponse("Record Not Found", details);
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), details);
         return new ResponseEntity(error, HttpStatus.NO_CONTENT);
     }
 
@@ -60,6 +57,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
         ErrorResponse error = new ErrorResponse(ex.getMessage(), details);
+        return new ResponseEntity(error, ex.getStatusCode());
+    }
+
+    @ExceptionHandler(value = InterviewSchedulerException.class)
+    public final ResponseEntity<Object> handleInterviewSchedulerException(InterviewSchedulerException ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(),null);
         return new ResponseEntity(error, ex.getStatusCode());
     }
 
