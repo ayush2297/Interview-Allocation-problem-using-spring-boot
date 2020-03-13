@@ -5,6 +5,7 @@ import com.interviewallocation.model.Interview;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Objects;
 
 public class OutputDto {
 
@@ -23,7 +24,7 @@ public class OutputDto {
     public String toString() {
         return "OutputDto{" +
                 "interviews=" + interviews +
-                ", \n\npendingAttendees=" + pendingAttendees +
+                ", pendingAttendees=" + pendingAttendees +
                 '}';
     }
 }

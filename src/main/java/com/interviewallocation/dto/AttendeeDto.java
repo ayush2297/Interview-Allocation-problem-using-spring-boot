@@ -17,4 +17,12 @@ public class AttendeeDto {
     @Getter
     @NotNull
     private int noOfInterviews;
+
+    public AttendeeDto() {
+    }
+
+    public AttendeeDto(String name, int noOfInterviews) {
+        this.name = name;
+        this.noOfInterviews = noOfInterviews;
+    }
 }
