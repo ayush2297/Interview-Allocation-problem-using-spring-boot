@@ -25,7 +25,7 @@ public class InterviewerController {
     @PostMapping("/add")
     public ResponseEntity<List<Long>> addInterviewers(@RequestBody @NotEmpty(message = "list cannot be empty") List<@Valid InterviewerDto> interviewers) {
         List<Long> ids = registrationService.addAllInterviewers(interviewers);
-        return new ResponseEntity<>(ids, HttpStatus.OK);
+        return new ResponseEntity<>(ids, HttpStatus.CREATED);
     }
 
     @GetMapping("/")

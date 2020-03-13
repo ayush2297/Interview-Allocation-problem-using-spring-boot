@@ -25,7 +25,7 @@ public class InterviewRoomController {
     @PostMapping("/add")
     public ResponseEntity<List<Long>> addRooms(@RequestBody @NotEmpty(message = "list cannot be empty") List<@Valid RoomDto> rooms) {
         List<Long> roomIds = registrationService.addInterviewRooms(rooms);
-        return new ResponseEntity<>(roomIds, HttpStatus.OK);
+        return new ResponseEntity<>(roomIds, HttpStatus.CREATED);
     }
 
 

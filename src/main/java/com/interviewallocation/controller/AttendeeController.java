@@ -25,7 +25,7 @@ public class AttendeeController {
     @PostMapping("/add")
     public ResponseEntity<List<Long>> addAttendees(@RequestBody @NotEmpty(message = "list cannot be empty") List<@Valid AttendeeDto> attendees) {
         List<Long> ids = registrationService.addAttendees(attendees);
-        return new ResponseEntity<>(ids, HttpStatus.OK);
+        return new ResponseEntity<>(ids, HttpStatus.CREATED);
     }
 
     @GetMapping("/")

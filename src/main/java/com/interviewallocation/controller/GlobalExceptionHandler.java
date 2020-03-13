@@ -16,6 +16,8 @@ import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.http.ResponseEntity.noContent;
+
 @SuppressWarnings({"unchecked", "rawtypes"})
 @RestControllerAdvice
 @RestController
@@ -41,7 +43,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
         ErrorResponse error = new ErrorResponse(ex.getMessage(), details);
-        return new ResponseEntity(error, HttpStatus.NO_CONTENT);
+        return noContent().build();
     }
 
     @ExceptionHandler(value = InterviewRoomException.class)
