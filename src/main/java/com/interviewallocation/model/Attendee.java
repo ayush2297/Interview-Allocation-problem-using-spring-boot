@@ -1,5 +1,6 @@
 package com.interviewallocation.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity(name = "attendees")
+@AllArgsConstructor
 public class Attendee {
 
     @Id

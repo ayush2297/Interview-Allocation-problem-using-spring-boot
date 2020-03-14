@@ -1,5 +1,6 @@
 package com.interviewallocation.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import java.time.LocalTime;
 import java.util.Objects;
 
 @Entity(name = "interviewers")
+@AllArgsConstructor
 public class Interviewer {
 
     @Id
