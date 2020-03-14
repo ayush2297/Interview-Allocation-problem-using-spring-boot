@@ -30,7 +30,7 @@ public class InterviewerRegistrationService {
         for (InterviewerDto interviewerDto : interviewers) {
             Interviewer interviewer = mapper.map(interviewerDto, Interviewer.class);
             if (interviewerDto.getBreakStartTime().getHour() == 0 || interviewerDto.getBreakEndTime().getHour() == 0)
-                setBreakTime(interviewer, LocalTime.MIDNIGHT, LocalTime.MIDNIGHT);
+                setBreakTime(interviewer, LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusMinutes(1));
             else {
                 setBreakTime(interviewer, interviewerDto.getBreakStartTime(), interviewerDto.getBreakEndTime());
             }
@@ -43,14 +43,14 @@ public class InterviewerRegistrationService {
     public List<Interviewer> getAllInterviewers() {
         List<Interviewer> interviewerList = interviewerRepository.findAll();
         if (interviewerList.isEmpty())
-            throw new InterviewRoomException("no records found!!", HttpStatus.NO_CONTENT);
+            throw new InterviewerException("no records found!!", HttpStatus.NO_CONTENT);
         return interviewerList;
     }
 
     private void validateBreakTime(List<InterviewerDto> interviewers) {
         for (InterviewerDto interviewerDto : interviewers) {
             if (interviewerDto.getBreakStartTime().isAfter(interviewerDto.getBreakEndTime()))
-                throw new InterviewerException("break end time cannot be before break end time at : " + interviewerDto
+                throw new InterviewerException("break end time cannot be before break end time"
                         , HttpStatus.BAD_REQUEST);
         }
     }

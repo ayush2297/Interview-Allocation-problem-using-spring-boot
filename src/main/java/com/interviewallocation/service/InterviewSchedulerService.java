@@ -47,7 +47,7 @@ public class InterviewSchedulerService {
 
     private <E> List<E> getData(JpaRepository<E, Long> repository) {
         List<E> data = repository.findAll();
-        if (data == null)
+        if (data.isEmpty())
             throw new InterviewSchedulerException("unable to get data from db", HttpStatus.NO_CONTENT);
         return data;
     }
