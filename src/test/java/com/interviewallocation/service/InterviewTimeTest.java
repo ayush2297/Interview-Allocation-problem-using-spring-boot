@@ -2,16 +2,12 @@ package com.interviewallocation.service;
 
 import com.interviewallocation.model.InterviewTime;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalTime;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(MockitoJUnitRunner.class)
 public class InterviewTimeTest {
 
     @Test
